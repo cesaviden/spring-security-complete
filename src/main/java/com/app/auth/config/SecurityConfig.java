@@ -4,6 +4,8 @@ import com.app.auth.config.filter.JwtTokenValidator;
 import com.app.auth.service.UserDetailServiceImpl;
 import com.app.auth.util.JwtUtils;
 
+import javax.swing.text.html.HTML;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,11 +44,12 @@ public class SecurityConfig {
                     // Configurar los endpoints publicos
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
 
-
                     // Configurar el resto de endpoint - ESPECIFICADOS
-                    http.requestMatchers(HttpMethod.POST, "/test/post").hasAnyRole("ADMIN", "DEVELOPER");
-                    http.requestMatchers(HttpMethod.PATCH, "/test/patch").hasAnyAuthority("REFACTOR");
-                    http.requestMatchers(HttpMethod.GET, "/test/get").hasAnyAuthority("READ");
+                    http.requestMatchers(HttpMethod.PUT, "/api/users/**").hasAnyRole("ADMIN", "DEVELOPER");
+                    http.requestMatchers(HttpMethod.GET, "/api/users").hasAuthority("READ");
+                    http.requestMatchers(HttpMethod.GET, "/api/users/admin").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.GET, "/api/users/create").hasAnyAuthority("CREATE", "REFACTOR");
+
                     // Configurar el resto de endpoint - NO ESPECIFICADOS
                     http.anyRequest().denyAll();
                 })

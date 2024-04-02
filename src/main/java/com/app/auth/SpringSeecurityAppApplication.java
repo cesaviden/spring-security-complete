@@ -23,7 +23,7 @@ public class SpringSeecurityAppApplication {
 
         @SuppressWarnings("null")
         @Bean
-        CommandLineRunner init(UserRepository userRepository) {
+        CommandLineRunner init(UserRepository userRepository) { 
                 return args -> {
                         /* Create PERMISSIONS */
                         PermissionEntity createPermission = PermissionEntity.builder()
