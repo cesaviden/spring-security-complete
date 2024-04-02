@@ -5,7 +5,7 @@ import com.app.auth.controller.dto.AuthLoginRequest;
 import com.app.auth.controller.dto.AuthResponse;
 import com.app.auth.persistence.entities.RoleEntity;
 import com.app.auth.persistence.entities.UserEntity;
-import com.app.auth.persistence.repositories.RoleRepository1;
+import com.app.auth.persistence.repositories.RoleRepository;
 import com.app.auth.persistence.repositories.UserRepository;
 import com.app.auth.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository1 roleRepository1;
+    private RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -63,7 +63,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         String password = createRoleRequest.password();
         List<String> rolesRequest = createRoleRequest.roleRequest().roleList();
 
-        Set<RoleEntity> roleEntityList = roleRepository1.findRoleEntitiesByRoleEnumIn(rolesRequest).stream().collect(Collectors.toSet());
+        Set<RoleEntity> roleEntityList = roleRepository.findRoleEntitiesByRoleEnumIn(rolesRequest).stream().collect(Collectors.toSet());
 
         if (roleEntityList.isEmpty()) {
             throw new IllegalArgumentException("The roles specified does not exist.");
